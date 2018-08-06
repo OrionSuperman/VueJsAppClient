@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import bcrypt from 'bcryptjs'
 
 const state = {
   email: '',
@@ -19,7 +20,7 @@ const actions = {
       .then((resp) => {
         let data = resp.data
         if (data && data.length) {
-          if (data[0].password === payload.password) {
+          if (bcrypt.compareSync(payload.password, data[0].password)) {
             payload.userId = data[0]._id
             commit('logInUser', payload)
           } else {
