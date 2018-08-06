@@ -25,7 +25,6 @@
     <v-content>
     <v-container fluid fill-height>
         <v-layout justify-center align-center>
-            <pie-chart :donut="true"></pie-chart>
             <college></college>
         </v-layout>
     </v-container>
@@ -115,6 +114,11 @@ export default {
   components: {
     College
   },
+  computed: {
+    isLoggedIn () {
+      return this.$store.getters.isLoggedIn
+    }
+  },
   data: () => ({
     dialog: false,
     drawer: null,
@@ -129,6 +133,20 @@ export default {
     search: function (collegeName) {
       // const vm = this
       console.log(collegeName)
+      // let me = this
+      this.$http.get('/college/' + collegeName)
+        .then((resp) => {
+          //console.log(resp.data.results)
+          if (resp.data.results && resp.data.results.length) {
+            //console.log(resp.data.results[0].school)
+            this.$store.collegeInfo(resp.data.results[0].school)
+          }
+        })
+    }
+  },
+  mounted: function () {
+    if (!this.isLoggedIn) {
+      this.$router.push({ path: '/login' })
     }
   }
 }

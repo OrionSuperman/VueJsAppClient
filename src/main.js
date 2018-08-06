@@ -6,15 +6,24 @@ import App from './App'
 import router from './router'
 import VueChartkick from 'vue-chartkick'
 import Chart from 'chart.js'
+import axios from 'axios'
+
+// vuex store
+import store from './store'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(VueChartkick, {adapter: Chart})
 
+Vue.axios = Vue.prototype.$http = axios.create({
+  baseURL: 'http://localhost:8081/api'
+})
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
+  store,
   router,
   components: { App },
   template: '<App/>'
