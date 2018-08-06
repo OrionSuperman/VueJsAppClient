@@ -131,15 +131,12 @@ export default {
   },
   methods: {
     search: function (collegeName) {
-      // const vm = this
       console.log(collegeName)
-      // let me = this
       this.$http.get('/college/' + collegeName)
         .then((resp) => {
-          //console.log(resp.data.results)
-          if (resp.data.results && resp.data.results.length) {
-            //console.log(resp.data.results[0].school)
-            this.$store.collegeInfo(resp.data.results[0].school)
+          if (resp.data && resp.data.results && resp.data.results.length) {
+            this.$store.dispatch('collegeInfo', resp.data.results[0].school)
+            this.$store.dispatch('latestYearData', resp.data.results[0])
           }
         })
     }

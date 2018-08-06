@@ -6,6 +6,7 @@ const state = {
   state: '',
   zip: '',
   studentCount: '',
+  latestYearData: {},
   programPercent: {},
   raceEthnicity: {},
   netPrice: {},
@@ -28,33 +29,40 @@ const getters = {
 
 const actions = {
   collegeInfo ({ commit }, payload) {
-    payload.name = 'a'
-    payload.alias = 'a'
-    payload.website = 'a'
-    payload.city = 'a'
-    payload.state = 'a'
-    payload.zip = 'a'
-    payload.studentCount = '1'
-    payload.programPercent = {}
-    payload.raceEthnicity = {}
-    payload.netPrice = {}
     commit('collegeInfo', payload)
+  },
+  latestYearData ({ commit }, payload) {
+    var currentDate = new Date()
+    var year = currentDate.getFullYear()
+    while (year) {
+      if (payload[year]) {
+        payload = payload[year]
+        payload.year = year
+        break
+      }
+      year--
+    }
+    commit('latestYearData', payload)
   }
 }
 
 const mutations = {
   collegeInfo (state, payload) {
-    console.log(payload)
     state.name = payload.name
     state.alias = payload.alias
-    state.website = payload.website
+    state.website = payload.school_url
     state.city = payload.city
     state.state = payload.state
     state.zip = payload.zip
-    // state.studentCount = payload.studentCount
-    // state.programPercent = payload.programPercent
-    // state.raceEthnicity = payload.raceEthnicity
-    // state.netPrice = payload.netPrice
+  },
+  latestYearData (state, payload) {
+    state.latestYearData = payload
+    state.programPercent = payload.academics.program_percentage
+    state.raceEthnicity = payload.student.demographics.race_ethnicity
+    state.netPrice = payload.cost.net_price.public.by_income_level
+  },
+  programPercent (state, payload) {
+    state.programPercent = payload
   }
 
 }
