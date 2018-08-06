@@ -17,7 +17,7 @@ Vue.use(Vuetify)
 Vue.use(VueChartkick, {adapter: Chart})
 
 Vue.axios = Vue.prototype.$http = axios.create({
-  baseURL: 'http://localhost:8081/api'
+  baseURL: 'https://peaceful-anchorage-63008.herokuapp.com:8081/api'
 })
 
 /* eslint-disable no-new */
